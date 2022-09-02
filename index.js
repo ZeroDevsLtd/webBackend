@@ -25,6 +25,8 @@ async function run(){
         const memberInfoCollection = client.db('zero-devs').collection('team-member-info');
         const statusCollection = client.db('zero-devs').collection('statuses');
         const genderCollection = client.db('zero-devs').collection('gender');
+        const portfolioCollection = client.db('zero-devs').collection('portfolio');
+        const testimonialCollection = client.db('zero-devs').collection('testimonials');
 
 
         app.post('/add-team-member',async (req,res)=>{
@@ -34,14 +36,35 @@ async function run(){
 
         });
 
+        app.post('/portfolio',async (req,res)=>{
+            const data = req.body ;
+            const result = await portfolioCollection.insertOne(data);
+            res.send(result);
+
+        });
+        app.post('/testimonial',async (req,res)=>{
+            const data = req.body ;
+            const result = await testimonialCollection.insertOne(data);
+            res.send(result);
+
+        });
+
         app.get('/team-member', async(req,res)=>{
             const query = {};
             const cursor = memberInfoCollection.find(query);
-            const members = await cursor.toArray();
+            const members = await cursor.toArray().project;
             const count = members.length; 
             const success = true;
             const message = `Found of ${count} members`;
             res.send({status:success,message:message,Total_Member:count,data:members});
+
+        });
+
+        app.get('/portfolio', async(req,res)=>{
+            const query = {};
+            const cursor = portfolioCollection.find(query);
+            const apps = await cursor.toArray();
+            res.send(apps);
         })
 
 
@@ -70,7 +93,7 @@ run().catch(console.dir)
 
 
 app.get('/',(req,res)=>{
-    res.send('ZeroDevs site is runnig!!!');
+    res.send('ZeroDevs site is running!!!');
 });
 
 app.listen(port,(req,res)=>{

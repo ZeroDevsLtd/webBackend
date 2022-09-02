@@ -25,6 +25,7 @@ async function run(){
         const memberInfoCollection = client.db('zero-devs').collection('team-member-info');
         const statusCollection = client.db('zero-devs').collection('statuses');
         const genderCollection = client.db('zero-devs').collection('gender');
+        const categoryCollection = client.db('zero-devs').collection('category');
         const portfolioCollection = client.db('zero-devs').collection('portfolio');
         const testimonialCollection = client.db('zero-devs').collection('testimonials');
 
@@ -63,9 +64,15 @@ async function run(){
         app.get('/portfolio', async(req,res)=>{
             const query = {};
             const cursor = portfolioCollection.find(query);
-            const apps = await cursor.toArray();
-            res.send(apps);
-        })
+            const portfolio = await cursor.toArray();
+            res.send(portfolio);
+        });
+        app.get('/testimonial', async(req,res)=>{
+            const query = {};
+            const cursor = testimonialCollection.find(query);
+            const testimonials = await cursor.toArray();
+            res.send(testimonials);
+        });
 
 
         app.get('/status', async(req,res)=>{
@@ -79,6 +86,12 @@ async function run(){
             const cursor = genderCollection.find(query);
             const genders = await cursor.toArray();
             res.send(genders);
+        });
+        app.get('/category', async(req,res)=>{
+            const query = {};
+            const cursor = categoryCollection.find(query);
+            const categories = await cursor.toArray();
+            res.send(categories);
         });
 
     }

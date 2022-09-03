@@ -53,7 +53,7 @@ async function run(){
         app.get('/team-member', async(req,res)=>{
             const query = {};
             const cursor = memberInfoCollection.find(query);
-            const members = await cursor.toArray().project;
+            const members = await cursor.toArray();
             const count = members.length; 
             const success = true;
             const message = `Found of ${count} members`;

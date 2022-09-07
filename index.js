@@ -32,7 +32,7 @@ async function run(){
         const serviceCollection = client.db('zero-devs').collection('services');
         const clientCollection = client.db('zero-devs').collection('clients');
         const chooseUsCollection = client.db('zero-devs').collection('choose-us');
-
+        const aboutUsCollection = client.db('zero-devs').collection('about-us');
 
         app.post('/add-team-member',async (req,res)=>{
             const info = req.body ;
@@ -118,7 +118,20 @@ async function run(){
             const cursor = chooseUsCollection.find(query);
             const chooses = await cursor.toArray();
             res.send(chooses);
-        })
+        });
+
+        app.post('/about-us', async (req,res)=>{
+            const data = req.body ;
+            const result = await aboutUsCollection.insertOne(data);
+            res.send(result);
+        });
+
+        app.get('/about-us', async (req,res)=>{
+            const query = {};
+            const cursor = aboutUsCollection.find(query);
+            const about = await cursor.toArray();
+            res.send(about);
+        });
 
         app.get('/status', async(req,res)=>{
             const query = {};

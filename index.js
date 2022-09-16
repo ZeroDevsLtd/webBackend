@@ -168,6 +168,9 @@ run().catch(console.dir)
 app.get('/',(req,res)=>{
     res.send('ZeroDevs site is running!!!');
 });
+app.get('/second',(req,res)=>{
+    res.send('ZeroDevs site is running other way!!!');
+});
 
 app.listen(port,(req,res)=>{
     console.log('ZeroDevs server running port',port);

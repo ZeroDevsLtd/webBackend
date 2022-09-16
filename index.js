@@ -58,7 +58,7 @@ async function run(){
         app.get('/team-member', async(req,res)=>{
             const query = {};
             const cursor = memberInfoCollection.find(query);
-            const members = await cursor.toArray().project;
+            const members = await cursor.toArray();
             const count = members.length; 
             const success = true;
             const message = `Found of ${count} members`;
@@ -72,13 +72,12 @@ async function run(){
             const portfolio = await cursor.toArray();
             res.send(portfolio);
         });
+
         app.get('/testimonial', async(req,res)=>{
             const query = {};
             const cursor = testimonialCollection.find(query);
             const testimonials = await cursor.toArray();
             res.send(testimonials);
-        });
-
         });
 
         app.post('/portfolio',async (req,res)=>{

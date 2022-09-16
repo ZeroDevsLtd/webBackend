@@ -14,6 +14,7 @@ app.use(express.json());
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { query } = require('express');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.p9oifrw.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -28,6 +29,10 @@ async function run(){
         const categoryCollection = client.db('zero-devs').collection('category');
         const portfolioCollection = client.db('zero-devs').collection('portfolio');
         const testimonialCollection = client.db('zero-devs').collection('testimonials');
+        const serviceCollection = client.db('zero-devs').collection('services');
+        const clientCollection = client.db('zero-devs').collection('clients');
+        const chooseUsCollection = client.db('zero-devs').collection('choose-us');
+        const aboutUsCollection = client.db('zero-devs').collection('about-us');
 
 
         app.post('/add-team-member',async (req,res)=>{
@@ -74,6 +79,88 @@ async function run(){
             res.send(testimonials);
         });
 
+        });
+
+        app.post('/portfolio',async (req,res)=>{
+            const data = req.body ;
+            const result = await portfolioCollection.insertOne(data);
+            res.send(result);
+
+        });
+
+        app.get('/portfolio', async(req,res)=>{
+            const query = {};
+            const cursor = portfolioCollection.find(query);
+            const portfolio = await cursor.toArray();
+            res.send(portfolio);
+        });
+
+        app.post('/testimonial',async (req,res)=>{
+            const data = req.body ;
+            const result = await testimonialCollection.insertOne(data);
+            res.send(result);
+
+        });
+
+        app.get('/testimonial', async(req,res)=>{
+            const query = {};
+            const cursor = testimonialCollection.find(query);
+            const testimonials = await cursor.toArray();
+            res.send(testimonials);
+        });
+
+        app.post('/service',async (req,res)=>{
+            const data = req.body ;
+            const result = await serviceCollection.insertOne(data);
+            res.send(result);
+
+        });
+
+        app.get('/service', async(req,res)=>{
+            const query = {};
+            const cursor = serviceCollection.find(query);
+            const testimonials = await cursor.toArray();
+            res.send(testimonials);
+        });
+
+        app.post('/client',async (req,res)=>{
+            const data = req.body ;
+            const result = await clientCollection.insertOne(data);
+            res.send(result);
+        });
+
+        app.get('/client',async (req,res)=>{
+            const query = {} ;
+            const cursor = clientCollection.find(query);
+            const clients = await cursor.toArray();
+            res.send(clients);
+        });
+
+        app.post('/choose-us',async (req,res)=>{
+            const data = req.body ;
+            const result = await chooseUsCollection.insertOne(data);
+            res.send(result);
+        });
+
+        app.get('/choose-us', async (req,res)=>{
+            const query = {} ;
+            const cursor = chooseUsCollection.find(query);
+            const chooses = await cursor.toArray();
+            res.send(chooses);
+        });
+
+        app.post('/about-us', async (req,res)=>{
+            const data = req.body ;
+            const result = await aboutUsCollection.insertOne(data);
+            res.send(result);
+        });
+
+        app.get('/about-us', async (req,res)=>{
+            const query = {};
+            const cursor = aboutUsCollection.find(query);
+            const about = await cursor.toArray();
+            res.send(about);
+        });
 
         app.get('/status', async(req,res)=>{
             const query = {};
@@ -81,12 +168,20 @@ async function run(){
             const status = await cursor.toArray();
             res.send(status);
         });
+
         app.get('/gender', async(req,res)=>{
             const query = {};
             const cursor = genderCollection.find(query);
             const genders = await cursor.toArray();
             res.send(genders);
         });
+        app.get('/category', async(req,res)=>{
+            const query = {};
+            const cursor = categoryCollection.find(query);
+            const categories = await cursor.toArray();
+            res.send(categories);
+        });
+
         app.get('/category', async(req,res)=>{
             const query = {};
             const cursor = categoryCollection.find(query);
@@ -114,19 +209,3 @@ app.listen(port,(req,res)=>{
 })
 
 
-{
-    success:true
-    total: 3
-    data:[
-        {
-
-        },
-        {
-
-        },
-        {
-
-        }
-    ]
-
-}

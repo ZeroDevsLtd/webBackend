@@ -34,6 +34,7 @@ async function run(){
         const chooseUsCollection = client.db('zero-devs').collection('choose-us');
         const aboutUsCollection = client.db('zero-devs').collection('about-us');
 
+
         app.post('/add-team-member',async (req,res)=>{
             const info = req.body ;
             const result = await memberInfoCollection.insertOne(info);
@@ -41,14 +42,42 @@ async function run(){
 
         });
 
+        app.post('/portfolio',async (req,res)=>{
+            const data = req.body ;
+            const result = await portfolioCollection.insertOne(data);
+            res.send(result);
+
+        });
+        app.post('/testimonial',async (req,res)=>{
+            const data = req.body ;
+            const result = await testimonialCollection.insertOne(data);
+            res.send(result);
+
+        });
+
         app.get('/team-member', async(req,res)=>{
             const query = {};
             const cursor = memberInfoCollection.find(query);
-            const members = await cursor.toArray();
+            const members = await cursor.toArray().project;
             const count = members.length; 
             const success = true;
             const message = `Found of ${count} members`;
             res.send({status:success,message:message,Total_Member:count,data:members});
+
+        });
+
+        app.get('/portfolio', async(req,res)=>{
+            const query = {};
+            const cursor = portfolioCollection.find(query);
+            const portfolio = await cursor.toArray();
+            res.send(portfolio);
+        });
+        app.get('/testimonial', async(req,res)=>{
+            const query = {};
+            const cursor = testimonialCollection.find(query);
+            const testimonials = await cursor.toArray();
+            res.send(testimonials);
+        });
 
         });
 
@@ -145,6 +174,12 @@ async function run(){
             const cursor = genderCollection.find(query);
             const genders = await cursor.toArray();
             res.send(genders);
+        });
+        app.get('/category', async(req,res)=>{
+            const query = {};
+            const cursor = categoryCollection.find(query);
+            const categories = await cursor.toArray();
+            res.send(categories);
         });
 
         app.get('/category', async(req,res)=>{

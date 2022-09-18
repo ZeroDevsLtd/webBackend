@@ -33,6 +33,10 @@ async function run(){
         const clientCollection = client.db('zero-devs').collection('clients');
         const chooseUsCollection = client.db('zero-devs').collection('choose-us');
         const aboutUsCollection = client.db('zero-devs').collection('about-us');
+        const circularCollection = client.db('zero-devs').collection('circular');
+        const requirementCollection = client.db('zero-devs').collection('requirement');
+        const responsibilityCollection = client.db('zero-devs').collection('responsibility');
+        const benefitCollection = client.db('zero-devs').collection('benefit');
 
 
         app.post('/add-team-member',async (req,res)=>{
@@ -159,6 +163,51 @@ async function run(){
             const cursor = aboutUsCollection.find(query);
             const about = await cursor.toArray();
             res.send(about);
+        });
+
+        app.post('/circular', async (req,res)=>{
+            const data = req.body ;
+            const result = await circularCollection.insertOne(data);
+            res.send(result);
+        });
+        app.get('/circular', async(req,res)=>{
+            const query = {};
+            const cursor = circularCollection.find(query);
+            const circulars = await cursor.toArray();
+            res.send(circulars);
+        });
+        app.post('/requirement', async (req,res)=>{
+            const data = req.body ;
+            const result = await requirementCollection.insertOne(data);
+            res.send(result);
+        });
+        app.get('/requirement', async(req,res)=>{
+            const query = {};
+            const cursor = requirementCollection.find(query);
+            const requirements = await cursor.toArray();
+            res.send(requirements);
+        });
+        app.post('/responsibility', async (req,res)=>{
+            const data = req.body ;
+            const result = await responsibilityCollection.insertOne(data);
+            res.send(result);
+        });
+        app.get('/responsibility', async(req,res)=>{
+            const query = {};
+            const cursor = responsibilityCollection.find(query);
+            const responsibilities = await cursor.toArray();
+            res.send(responsibilities);
+        });
+        app.post('/benefit', async (req,res)=>{
+            const data = req.body ;
+            const result = await benefitCollection.insertOne(data);
+            res.send(result);
+        });
+        app.get('/benefit', async(req,res)=>{
+            const query = {};
+            const cursor = benefitCollection.find(query);
+            const benefits = await cursor.toArray();
+            res.send(benefits);
         });
 
         app.get('/status', async(req,res)=>{

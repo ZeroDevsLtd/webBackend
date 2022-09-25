@@ -9,6 +9,17 @@ const port = process.env.PORT || 18520;
 
 
 //Middle ware
+app.use((req, res, next) => {
+    const corsWhitelist = [
+        'http://51.159.105.249:18520'
+    ];
+    if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    }
+
+    next();
+});
 app.use(fileUpload({
     createParentPath: true
 }))

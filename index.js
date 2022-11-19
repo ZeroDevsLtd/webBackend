@@ -5,8 +5,6 @@ const mv = require('mv')
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
-const https = require('https');
-const fs = require('fs');
 const port = process.env.PORT || 18520;
 
 
@@ -301,16 +299,9 @@ app.get('/', (req, res) => {
     res.send('ZeroDevs site is running!!!');
 });
 
-var privateKey = fs.readFileSync( '/etc/ssl/private/ssl-cert-snakeoil.key' );
-var certificate = fs.readFileSync( '/etc/ssl/certs/ca-certificates.crt' );
 
-https.createServer({
-    key: privateKey,
-    cert: certificate
-}, app).listen(port);
-
-// app.listen(port, (req, res) => {
-//     console.log('ZeroDevs server running port', port);
-// })
+app.listen(port, (req, res) => {
+    console.log('ZeroDevs server running port', port);
+})
 
 
